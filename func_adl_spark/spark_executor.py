@@ -1,4 +1,4 @@
-from .translation import generate_function
+from .spark_translation import generate_function
 
 
 def ast_executor(ast):
