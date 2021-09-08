@@ -2,8 +2,8 @@ import copy
 
 import qastle
 
-from spark_transformer import PythonSourceGeneratorTransformer
-from spark_transformer import input_filenames_argument_name, tree_name_argument_name
+from .spark_transformer import PythonSourceGeneratorTransformer
+from .spark_transformer import input_filenames_argument_name, tree_name_argument_name
 
 
 def python_ast_to_python_source(python_ast):
