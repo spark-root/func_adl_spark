@@ -30,13 +30,32 @@ Features
 
 Development Environment
 -----------------------
+To checkout the development environment, run the following:
+
+```
 git clone git@github.com:spark-root/func_adl_spark.git
 cd func_adl_spark
-python3 -m venv venv
+python3.7 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip wheel setuptools
 pip install --prefer-binary -r requirements_dev.txt
 pip install -e .
+```
+
+ Due to the dependency on Spark 2.4, we currently require Python3.4->Python3.7.
+ MacOS has moved to 3.9 in a recent version, so to get/use a different version
+ with Homebrew, you can instead execute the following (modify if necessary if
+ you have another method to access Python3.7):
+```
+brew install python@3.7
+git clone git@github.com:spark-root/func_adl_spark.git
+cd func_adl_spark
+/usr/local/opt/python@3.7/bin/python3.7 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip wheel setuptools
+pip install --prefer-binary -r requirements_dev.txt
+pip install -e .
+```
 
 Credits
 -------
