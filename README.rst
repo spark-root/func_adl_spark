@@ -28,6 +28,16 @@ Features
 
 * TODO
 
+Development Environment
+-----------------------
+git clone git@github.com:spark-root/func_adl_spark.git
+cd func_adl_spark
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip wheel setuptools
+pip install --prefer-binary -r requirements_dev.txt
+pip install -e .
+
 Credits
 -------
 
