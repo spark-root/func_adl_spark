@@ -106,3 +106,6 @@ ENV/
 
 # Mac image
 .DS_Store
+
+# VSCode history
+.history/
