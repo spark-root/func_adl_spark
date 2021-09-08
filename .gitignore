@@ -109,3 +109,6 @@ ENV/
 
 # VSCode history
 .history/
+
+# Location of scratch files
+/unimportant/
