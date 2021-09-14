@@ -17,23 +17,13 @@ class TestFunc_adl_spark(unittest.TestCase):
     def tearDown(self):
         """Tear down test fixtures, if any."""
 
-    def test_get_select(self):
-        """Test something."""
-        from func_adl_spark.spark_translation import generate_python_source, python_ast_to_python_source
-        import ast, qastle
-        python_source = "Select(EventDataset('tests/scalars_tree_file.root', 'tree'), lambda event: event.MET_pt)"
-        query_raw_python_ast = ast.parse(python_source)
-        query_python_ast = qastle.insert_linq_nodes(query_raw_python_ast)
-        ast.dump(query_raw_python_ast)
-        print(python_ast_to_python_source(query_python_ast))
-
     def uproot_version_func_adl(self):
         from func_adl_uproot import UprootDataset
         import matplotlib.pyplot as plt
-        ds = UprootDataset('../unimportant/A3AAE4A7-E384-8449-8C4E-E3473A20D211.root')
+
+        ds = UprootDataset("../unimportant/A3AAE4A7-E384-8449-8C4E-E3473A20D211.root")
         missing_ET = ds.Select(lambda event: event.MET_pt)
         missing_ET_value = missing_ET.value()
-
 
     # def uproot_version_full(self):
     #     return (
@@ -78,7 +68,7 @@ class TestFunc_adl_spark(unittest.TestCase):
     #         # The thing that processes the data
     #         def process_fun(event):
     #             return event.MET_pt
-            
+
     #         # the thing that gets the data
     #         def get_fun(input_files, tree_name_to_use):
     #                 (
@@ -103,13 +93,16 @@ class TestFunc_adl_spark(unittest.TestCase):
     def spark_version_func_adl(self):
         from func_adl_spark import SparkDataset
         import matplotlib.pyplot as plt
-        ds = SparkDataset('../unimportant/A3AAE4A7-E384-8449-8C4E-E3473A20D211.root')
+
+        ds = SparkDataset("../unimportant/A3AAE4A7-E384-8449-8C4E-E3473A20D211.root")
         missing_ET = ds.Select(lambda event: event.MET_pt)
         missing_ET_value = missing_ET.value()
-    
+
     def spark_version_full(self):
         sc = self.start_spark()
-        df = self.load_file(sc, '../unimportant/A3AAE4A7-E384-8449-8C4E-E3473A20D211.root')
+        df = self.load_file(
+            sc, "../unimportant/A3AAE4A7-E384-8449-8C4E-E3473A20D211.root"
+        )
 
         # Define the Select lambda
         # select_lambda_from_user = lambda event: event.MET_pt
@@ -127,11 +120,13 @@ class TestFunc_adl_spark(unittest.TestCase):
 
     def start_spark(self):
         import pyspark
+
         ret = pyspark.getOrCreate()
         return ret
-    
+
     def load_file(self, sc, path):
         return sc.read.format("root").load(path)
-        
+
+
 if __name__ == "__main__":
     unittest.main()
