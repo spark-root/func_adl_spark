@@ -71,12 +71,8 @@ class TestRebind_lambda_to_spark_df_transformer(unittest.TestCase):
 
         desired_args = ast.arguments(
             args=[
-                ast.arg(
-                    arg="_event_MET_dxy", annotation=ast.Constant(value="")
-                ),
-                ast.arg(
-                    arg="_event_MET_pt", annotation=ast.Constant(value="")
-                ),
+                ast.arg(arg="_event_MET_dxy", annotation=ast.Constant(value="")),
+                ast.arg(arg="_event_MET_pt", annotation=ast.Constant(value="")),
             ]
         )
         desired_args_rep = astpretty.pformat(desired_args, show_offsets=False)
