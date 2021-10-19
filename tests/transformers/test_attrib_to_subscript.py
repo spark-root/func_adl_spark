@@ -49,8 +49,8 @@ class TestAttribToSubscriptTransformer(unittest.TestCase):
         # 	],
         # )
         xform_python_ast = AttribToSubscriptTransformer().visit(query_python_ast)
-        selector = xform_python_ast.body[0].value.selector
-        selector_body_rep = astpretty.pformat(selector.body, show_offsets=False)
+        selector = xform_python_ast.body[0].value.selector.body
+        selector_body_rep = astpretty.pformat(selector, show_offsets=False)
         desired_body = ast.Subscript(
             value=ast.Name(id="event", ctx=ast.Load()),
             slice=ast.Index(value=ast.Str(s="MET_pt")),
