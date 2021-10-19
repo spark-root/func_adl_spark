@@ -9,4 +9,9 @@ class AttribToSubscriptTransformer(ast.NodeTransformer):
     """
 
     def visit_Attribute(self, node):
-        return node
+        ret = ast.Subscript(
+            value=self.visit(node.value),
+            slice=ast.Index(value=ast.Str(s=node.attr)),
+            ctx=ast.Load(),
+        )
+        return ret
