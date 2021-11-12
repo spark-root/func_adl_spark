@@ -43,7 +43,7 @@ compare_op_dict = {
 }
 
 
-class PythonSourceGeneratorTransformer(ast.NodeTransformer):
+class SparkSourceGeneratorTransformer(ast.NodeTransformer):
     def __init__(self):
         self._depth = None
         self._id_scopes = {}
@@ -52,13 +52,13 @@ class PythonSourceGeneratorTransformer(ast.NodeTransformer):
         if hasattr(node, "rep"):
             return node
         else:
-            return super(PythonSourceGeneratorTransformer, self).visit(node)
+            return super(SparkSourceGeneratorTransformer, self).visit(node)
 
     def generic_visit(self, node):
         if hasattr(node, "rep"):
             return node
         else:
-            return super(PythonSourceGeneratorTransformer, self).generic_visit(node)
+            return super(SparkSourceGeneratorTransformer, self).generic_visit(node)
 
     def get_rep(self, node):
         if node is None:

@@ -16,6 +16,10 @@ class LambdaSelectVisitor(ast.NodeVisitor):
         if node.value.id == self.lambda_id:
             self.attributes[node.attr] = 1
 
+    def visit_Subscript(self, node):
+        if node.value.id == self.lambda_id:
+            self.attributes[node.slice.value.s] = 1
+
     def get_accessed_columns(self):
         return set(self.attributes.keys())
 
@@ -62,14 +66,21 @@ class RebindLambdaToSparkDFTransformer(ast.NodeTransformer):
         # Store the accessed columns in the node so we can use it later
         node.accessed_columns = cols = sorted(list(visitor.get_accessed_columns()))
         node.renamed_columns = [self.getNameForAttribute(lambda_arg, x) for x in cols]
-
+        # This is simply to make astpretty print this info
+        node._fields.extend(("accessed_columns", "renamed_columns"))
         # I think that the "annotation" field is spurious, but for some
         # reason, needed to be able to astpretty.pprint() the args
         args = ast.arguments(
             args=[
                 ast.arg(arg=x, annotation=ast.Constant(value=""))
                 for x in node.renamed_columns
-            ]
+            ],
+            posonlyargs=[],
+            vararg=None,
+            kwarg=None,
+            kwonlyargs=[],
+            kw_defaults=[],
+            defaults=[]
         )
 
         replaceTransform = InternalRebindLambdaToSparkDFTransformer(
@@ -105,3 +116,12 @@ class InternalRebindLambdaToSparkDFTransformer(ast.NodeTransformer):
             )
         else:
             return node
+
+    def visit_Subscript(self, node):
+        if isinstance(node.value, ast.Name) and node.value.id == self.lambda_arg:
+            return ast.Name(
+                id=self.getNameForAttribute(self.lambda_arg, node.slice.value.s), ctx=node.ctx
+            )
+        else:
+            return node
+

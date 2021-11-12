@@ -2,12 +2,12 @@ import copy
 
 import qastle
 
-from .spark_transformer import PythonSourceGeneratorTransformer
+from .spark_transformer import SparkSourceGeneratorTransformer
 from .spark_transformer import input_filenames_argument_name, tree_name_argument_name
 
 
 def python_ast_to_python_source(python_ast):
-    return PythonSourceGeneratorTransformer().get_rep(python_ast)
+    return SparkSourceGeneratorTransformer().get_rep(python_ast)
 
 
 def generate_python_source(ast, function_name="run_query"):
